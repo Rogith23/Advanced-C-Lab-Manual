@@ -17,6 +17,55 @@ Algorithm:
 Program:
 
 //type your code here
+// EXP NO:6
+// C PROGRAM TO PRINT THE LOWERCASE ENGLISH WORD CORRESPONDING TO THE NUMBER
+
+#include <stdio.h>
+
+int main() {
+    int n;
+
+    
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+   
+    switch(n) {
+        case 5:
+            printf("seventy one\n");
+            break;
+        case 6:
+            printf("seventy two\n");
+            break;
+        case 7:
+            printf("seventy three\n");
+            break;
+        case 8:
+            printf("seventy four\n");
+            break;
+        case 9:
+            printf("seventy five\n");
+            break;
+        case 10:
+            printf("seventy six\n");
+            break;
+        case 11:
+            printf("seventy seven\n");
+            break;
+        case 12:
+            printf("seventy eight\n");
+            break;
+        case 13:
+            printf("seventy nine\n");
+            break;
+        default:
+            printf("greater than 13\n");
+            break;
+    }
+
+    return 0;
+}
+
 
 
 
@@ -25,6 +74,9 @@ Output:
 
 
 //paste your output here
+Enter a number: 5
+seventy one
+
 
 
 
@@ -48,6 +100,36 @@ Algorithm:
 Program:
 
 //type your code here
+// EXP NO:7
+// C PROGRAM TO PRINT TEN SPACE-SEPARATED INTEGERS IN A SINGLE LINE DENOTING THE FREQUENCY OF EACH DIGIT FROM 0 TO 3.
+
+#include <stdio.h>
+
+int main() {
+    char a[50];  // Declare an array to store input string
+    int i, c[4] = {0, 0, 0, 0};  // Frequency array for digits 0 to 3
+
+    // Input string
+    printf("Enter a string (max 50 characters): ");
+    fgets(a, sizeof(a), stdin);  // Read string with spaces
+
+    // Loop through the string
+    for(i = 0; a[i] != '\0'; i++) {
+        // Check if the character is between '0' and '3'
+        if(a[i] >= '0' && a[i] <= '3') {
+            // Increment the frequency count of the corresponding digit
+            c[a[i] - '0']++;
+        }
+    }
+
+    // Print the frequency of each digit from 0 to 3
+    for(i = 0; i < 4; i++) {
+        printf("%d ", c[i]);  // Print space-separated values
+    }
+
+    return 0;
+}
+
 
 
 
@@ -56,6 +138,9 @@ Output:
 
 
 //paste your output here
+Enter a string (max 50 characters): 112302301
+1 3 3 2 
+
 
 
 
@@ -85,6 +170,77 @@ Free the memory allocated for each string in s Free the memory allocated for s
 Program:
 
 //type your code here
+// EXP NO:8
+// C PROGRAM TO PRINT ALL OF ITS PERMUTATIONS IN STRICT LEXICOGRAPHICAL ORDER
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to compare two strings for qsort
+int compare(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+// Function to generate permutations
+void generatePermutations(char *str, int l, int r) {
+    // Base case: if left index is equal to right, print the string
+    if (l == r) {
+        printf("%s\n", str);
+    } else {
+        for (int i = l; i <= r; i++) {
+            // Swap characters at positions l and i
+            char temp = str[l];
+            str[l] = str[i];
+            str[i] = temp;
+            
+            // Recur to generate permutations
+            generatePermutations(str, l + 1, r);
+            
+            // Backtrack (swap characters back to original)
+            temp = str[l];
+            str[l] = str[i];
+            str[i] = temp;
+        }
+    }
+}
+
+int main() {
+    int n;
+
+    // Input the number of strings (array size)
+    printf("Enter the number of strings: ");
+    scanf("%d", &n);
+
+    // Dynamically allocate memory for the array of strings
+    char **s = (char **)malloc(n * sizeof(char *));
+    
+    // Input strings
+    printf("Enter the strings:\n");
+    for (int i = 0; i < n; i++) {
+        s[i] = (char *)malloc(100 * sizeof(char)); // Allocate memory for each string
+        scanf("%s", s[i]);  // Read string
+    }
+
+    // Sort strings in lexicographical order
+    qsort(s, n, sizeof(char *), compare);
+    
+    // Generate all permutations of each string
+    printf("\nPermutations in lexicographical order:\n");
+    for (int i = 0; i < n; i++) {
+        int len = strlen(s[i]);
+        generatePermutations(s[i], 0, len - 1);
+    }
+
+    // Deallocate memory
+    for (int i = 0; i < n; i++) {
+        free(s[i]); // Free each string
+    }
+    free(s); // Free the array of strings
+
+    return 0;
+}
+
 
 
 
@@ -93,6 +249,18 @@ Output:
 
 
 //paste your output here
+Permutations in lexicographical order:
+abc
+acb
+bac
+bca
+cab
+cba
+xyz
+xzy
+yzx
+zyx
+
 
 
 
@@ -118,6 +286,38 @@ Algorithm:
 Program:
 
 //type your code here
+// EXP NO:9
+// C PROGRAM TO PRINT A PATTERN OF NUMBERS FROM 1 TO N AS SHOWN BELOW.
+
+#include <stdio.h>
+
+int main() {
+    int n, len, i, j, min;
+
+    // Step 3: Read the value of n from the user
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+
+    // Step 4: Calculate the length of the side of the square matrix
+    len = 2 * n - 1;
+
+    // Step 5: Matrix Generation Loop
+    for(i = 0; i < len; i++) {
+        for(j = 0; j < len; j++) {
+            // Step 6: Calculate the minimum distance to the borders
+            min = i < j ? i : j;
+            min = min < len - i - 1 ? min : len - i - 1;
+            min = min < len - j - 1 ? min : len - j - 1;
+
+            // Print the value at the current position
+            printf("%d ", n - min);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
 
 
 
@@ -126,6 +326,12 @@ Output:
 
 
 //paste your output here
+3 3 3 3 3
+3 2 2 2 3
+3 2 1 2 3
+3 2 2 2 3
+3 3 3 3 3
+
 
 
 
@@ -157,6 +363,30 @@ o	Call the square() function and display the result.
 Program:
 
 //type your code here
+#include <stdio.h>
+
+// Function to calculate square of the number
+int square() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+    
+    // Return the square of the number
+    return num * num;
+}
+
+int main() {
+    int result;
+    
+    // Call the square function and store the returned value in result
+    result = square();
+    
+    // Print the square of the number
+    printf("The square of the number is: %d\n", result);
+    
+    return 0;
+}
+
 
 
 
@@ -165,6 +395,9 @@ Output:
 
 
 //paste your output here
+Enter a number: 5
+The square of the number is: 25
+
 
 
 
