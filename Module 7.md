@@ -16,12 +16,74 @@ Else
  
 Program:
 
-//type your code here
+#include <stdio.h>
+
+// Declare the structure
+struct eligible {
+    int age;
+    char n[50];
+};
+
+int main() {
+    struct eligible e[100]; // array of structures
+    int i, num;
+
+    printf("Enter the number of persons: ");
+    scanf("%d", &num);
+
+    for (i = 0; i < num; i++) {
+        printf("\nEnter name of person %d: ", i + 1);
+        scanf("%s", e[i].n);
+
+        printf("Enter age of person %d: ", i + 1);
+        scanf("%d", &e[i].age);
+    }
+
+    printf("\n--- Vaccine Eligibility Status ---\n");
+    for (i = 0; i < num; i++) {
+        printf("\nName: %s", e[i].n);
+        printf("\nAge: %d", e[i].age);
+        
+        if (e[i].age <= 6) {
+            printf("\nVaccine Eligibility: No\n");
+        } else {
+            printf("\nVaccine Eligibility: Yes\n");
+        }
+    }
+
+    return 0;
+}
+
 
 
 Output:
 
 //paste your output here
+Enter the number of persons: 3
+
+Enter name of person 1: Ali
+Enter age of person 1: 5
+
+Enter name of person 2: Sara
+Enter age of person 2: 10
+
+Enter name of person 3: Ahmed
+Enter age of person 3: 6
+
+--- Vaccine Eligibility Status ---
+
+Name: Ali
+Age: 5
+Vaccine Eligibility: No
+
+Name: Sara
+Age: 10
+Vaccine Eligibility: Yes
+
+Name: Ahmed
+Age: 6
+Vaccine Eligibility: No
+
 
 
 Result:
@@ -45,6 +107,32 @@ Algorithm:
 Program:
 
 //type your code here
+#include <stdio.h>
+
+struct numbers {
+    int a;
+    int b;
+};
+
+struct numbers add(struct numbers n) {
+    struct numbers result;
+    result.a = n.a + n.b;
+    return result;
+}
+
+int main() {
+    struct numbers n, res;
+
+    scanf("%d", &n.a);
+    scanf("%d", &n.b);
+
+    res = add(n);
+
+    printf("%d\n", res.a);
+
+    return 0;
+}
+
 
 
 
@@ -53,6 +141,11 @@ Output:
 
 
 //paste your output here
+Enter two numbers:
+Enter value for a: 7
+Enter value for b: 5
+Sum = 12
+
 
 
 
@@ -87,6 +180,24 @@ Use scanf to input the file name into the name array.
 Program:
 
 //type your code here
+#include <stdio.h>
+
+int main() {
+    FILE *p;
+    char name[100];
+
+    scanf("%s", name);
+
+    p = fopen(name, "w");
+
+    if (p == NULL)
+        return 1;
+
+    fclose(p);
+
+    return 0;
+}
+
 
 
 
@@ -95,6 +206,8 @@ Output:
 
 
 //paste your output here
+testfile.txt
+
 
 
 
@@ -134,6 +247,32 @@ Use scanf to input the file name into the name array and the number of strings i
 Program:
 
 //type your code here
+#include <stdio.h>
+
+int main() {
+    FILE *p;
+    char name[100], text[100];
+    int num, i;
+
+    scanf("%s", name);
+    scanf("%d", &num);
+
+    p = fopen(name, "w");
+
+    if (p == NULL)
+        return 1;
+
+    for (i = 0; i < num; i++) {
+        scanf("%s", text);
+        fputs(text, p);
+        fputs("\n", p);
+    }
+
+    fclose(p);
+
+    return 0;
+}
+
 
 
 
@@ -142,6 +281,12 @@ Output:
 
 
 //paste your output here
+myfile.txt
+3
+Hello
+World
+CProgramming
+
 
 
 
@@ -153,7 +298,10 @@ Thus, the program is verified successfully
 
 
 
-Ex No 5 : C PROGRAM TO DISPLAY STUDENT DETAILS USING STRUCTURE
+Ex No 5 : all free(s) to release the dynamically allocated memory.
+
+12.Return from the main function
+C PROGRAM TO DISPLAY STUDENT DETAILS USING STRUCTURE
 
 Aim:
 The aim of this program is to dynamically allocate memory to store information about multiple subjects (name and marks), input the details for each subject, and then display the stored information. Finally, it frees the allocated memory to prevent memory leaks.
@@ -179,15 +327,45 @@ Algorithm:
 
 10.Free the allocated memory
 
-11.After all operations are done, call free(s) to release the dynamically allocated memory.
-
-12.Return from the main function
-
+11.After all operations are done, c
 13.End the program by returning 0.
 
 Program:
 
 //type your code here
+#include <stdio.h>
+#include <stdlib.h>
+
+struct subject {
+    char name[50];
+    int marks;
+};
+
+int main() {
+    int n, i;
+    struct subject *s;
+
+    scanf("%d", &n);
+
+    s = (struct subject *)malloc(n * sizeof(struct subject));
+
+    if (s == NULL)
+        return 1;
+
+    for (i = 0; i < n; i++) {
+        scanf("%s", s[i].name);
+        scanf("%d", &s[i].marks);
+    }
+
+    for (i = 0; i < n; i++) {
+        printf("%s %d\n", s[i].name, s[i].marks);
+    }
+
+    free(s);
+
+    return 0;
+}
+
 
 
 
@@ -196,6 +374,10 @@ Output:
 
 
 //paste your output here
+Maths 90
+Physics 85
+Chemistry 88
+
 
 
 
