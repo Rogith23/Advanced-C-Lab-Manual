@@ -17,6 +17,43 @@ Algorithm:
 Program:
 
 //type your code here
+#include <stdio.h>
+
+// Declare the structure
+struct eligible {
+    int age;
+    char n[50];
+};
+
+int main() {
+    struct eligible e[100]; // array of structures
+    int i, num;
+
+    printf("Enter the number of persons: ");
+    scanf("%d", &num);
+
+    for (i = 0; i < num; i++) {
+        printf("\nEnter name of person %d: ", i + 1);
+        scanf("%s", e[i].n);
+
+        printf("Enter age of person %d: ", i + 1);
+        scanf("%d", &e[i].age);
+    }
+
+    printf("\n--- Vaccine Eligibility Status ---\n");
+    for (i = 0; i < num; i++) {
+        printf("\nName: %s", e[i].n);
+        printf("\nAge: %d", e[i].age);
+        
+        if (e[i].age <= 6) {
+            printf("\nVaccine Eligibility: No\n");
+        } else {
+            printf("\nVaccine Eligibility: Yes\n");
+        }
+    }
+
+    return 0;
+}
 
 
 
@@ -25,6 +62,30 @@ Output:
 
 
 //paste your output here
+Enter the number of persons: 3
+
+Enter name of person 1: Ali
+Enter age of person 1: 5
+
+Enter name of person 2: Sara
+Enter age of person 2: 10
+
+Enter name of person 3: Ahmed
+Enter age of person 3: 6
+
+--- Vaccine Eligibility Status ---
+
+Name: Ali
+Age: 5
+Vaccine Eligibility: No
+
+Name: Sara
+Age: 10
+Vaccine Eligibility: Yes
+
+Name: Ahmed
+Age: 6
+Vaccine Eligibility: No
 
 
 
@@ -48,7 +109,35 @@ Algorithm:
 Program:
 
 //type your code here
+// EXP NO:7 - C Program to print frequency of digits 0 to 3
 
+#include <stdio.h>
+
+int main() {
+    char a[50];
+    int i, h, c;
+
+    printf("Enter the string of digits:\n");
+    scanf("%s", a);
+
+    for (h = 0; h <= 3; h++) {
+        c = 0;
+        for (i = 0; a[i] != '\0'; i++) {
+            if (a[i] == (h + '0')) { // Compare character with digit
+                c++;
+            }
+        }
+        printf("%d ", c); // Print count with space
+    }
+
+    // For remaining digits 4 to 9, print 0
+    for (h = 4; h <= 9; h++) {
+        printf("0 ");
+    }
+
+    printf("\n");
+    return 0;
+}
 
 
 
@@ -56,6 +145,10 @@ Output:
 
 
 //paste your output here
+Enter the string of digits:
+012301230
+3 2 2 2 0 0 0 0 0 0
+
 
 
 
@@ -85,6 +178,89 @@ Free the memory allocated for each string in s Free the memory allocated for s
 Program:
 
 //type your code here
+// EXP NO: -- C Program to print all permutations in strict lexicographical order
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to swap two strings
+void swap(char **x, char **y) {
+    char *temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+// Function to compare two strings (for qsort)
+int cmp(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+// Function to generate next lexicographical permutation
+int next_permutation(char **s, int n) {
+    int i = n - 2;
+    while (i >= 0 && strcmp(s[i], s[i + 1]) >= 0)
+        i--;
+
+    if (i < 0)
+        return 0;
+
+    int j = n - 1;
+    while (strcmp(s[j], s[i]) <= 0)
+        j--;
+
+    swap(&s[i], &s[j]);
+
+    // Reverse the part after i
+    int l = i + 1, r = n - 1;
+    while (l < r) {
+        swap(&s[l], &s[r]);
+        l++;
+        r--;
+    }
+
+    return 1;
+}
+
+int main() {
+    char **s;
+    int n, i;
+
+    printf("Enter the number of strings: ");
+    scanf("%d", &n);
+
+    // Memory allocation
+    s = (char **)malloc(n * sizeof(char *));
+    for (i = 0; i < n; i++) {
+        s[i] = (char *)malloc(100 * sizeof(char)); // Assuming max length 100
+    }
+
+    // Input strings
+    printf("Enter the strings:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%s", s[i]);
+    }
+
+    // Sort initially to start from lexicographical order
+    qsort(s, n, sizeof(char *), cmp);
+
+    // Print all permutations
+    do {
+        for (i = 0; i < n; i++) {
+            printf("%s ", s[i]);
+        }
+        printf("\n");
+    } while (next_permutation(s, n));
+
+    // Memory deallocation
+    for (i = 0; i < n; i++) {
+        free(s[i]);
+    }
+    free(s);
+
+    return 0;
+}
+
 
 
 
@@ -93,6 +269,16 @@ Output:
 
 
 //paste your output here
+Enter the number of strings: 3
+Enter the strings:
+cat bat ant
+ant bat cat
+ant cat bat
+bat ant cat
+bat cat ant
+cat ant bat
+cat bat ant
+
 
 
 
@@ -118,6 +304,38 @@ Algorithm:
 Program:
 
 //type your code here
+// C Program to print a pattern of numbers from 1 to n
+
+#include <stdio.h>
+
+// Function to find minimum of two numbers
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int main() {
+    int n, i, j, len, min_distance;
+
+    // Read input
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+
+    // Calculate length of square matrix
+    len = n * 2 - 1;
+
+    // Generate matrix
+    for (i = 0; i < len; i++) {
+        for (j = 0; j < len; j++) {
+            // Calculate minimum distance from borders
+            min_distance = min(min(i, j), min(len - 1 - i, len - 1 - j));
+            printf("%d ", n - min_distance);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
 
 
 
@@ -126,6 +344,14 @@ Output:
 
 
 //paste your output here
+4 4 4 4 4 4 4 
+4 3 3 3 3 3 4 
+4 3 2 2 2 3 4 
+4 3 2 1 2 3 4 
+4 3 2 2 2 3 4 
+4 3 3 3 3 3 4 
+4 4 4 4 4 4 4 
+
 
 
 
@@ -157,6 +383,30 @@ o	Call the square() function and display the result.
 Program:
 
 //type your code here
+// C Program to calculate square using a function with no arguments but a return value
+
+#include <stdio.h>
+
+// Function that does not take arguments but returns the square
+int square() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+    return num * num;
+}
+
+int main() {
+    int result;
+
+    // Call the function and store the result
+    result = square();
+
+    // Display the result
+    printf("The square of the number is: %d\n", result);
+
+    return 0;
+}
+
 
 
 
@@ -165,6 +415,9 @@ Output:
 
 
 //paste your output here
+Enter a number: 5
+The square of the number is: 25
+
 
 
 
